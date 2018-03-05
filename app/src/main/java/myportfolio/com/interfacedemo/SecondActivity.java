@@ -1,9 +1,11 @@
 package myportfolio.com.interfacedemo;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 
 import static myportfolio.com.interfacedemo.MainActivity.mAbstractValue;
@@ -12,6 +14,7 @@ import static myportfolio.com.interfacedemo.MainActivity.mPassValue;
 public class SecondActivity extends AppCompatActivity {
 
     private EditText etValue;
+    private String value;
 
 
     @Override
@@ -33,10 +36,18 @@ public class SecondActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                mPassValue.getValue(etValue.getText().toString());
-                mAbstractValue.passValue(etValue.getText().toString());
+                value = etValue.getText().toString();
+                mPassValue.getValue(value);
+                mAbstractValue.passValue(value);
+
             }
         });
     }
 
+    public void close(View view) {
+        Intent intent = new Intent();
+        intent.putExtra("MESSAGE", value);
+        setResult(2, intent);
+        finish();//finishing activity
+    }
 }

@@ -7,8 +7,9 @@ import android.widget.TextView;
 
 public class MainActivity extends AbstractClass implements PassValue {
 
-    private TextView tvValue;
-    private TextView tvValue2;
+    private TextView tvValueInterface;
+    private TextView tvValueAbstract;
+    private TextView tvValueBundle;
     public static PassValue mPassValue;
     public static AbstractClass mAbstractValue;
 
@@ -20,24 +21,33 @@ public class MainActivity extends AbstractClass implements PassValue {
         mPassValue = this;
         mAbstractValue = this;
 
-        tvValue = findViewById(R.id.tv_value);
-        tvValue2 = findViewById(R.id.tv_value2);
+        tvValueInterface = findViewById(R.id.tv_value_interface);
+        tvValueAbstract = findViewById(R.id.tv_value_abstract);
+        tvValueBundle = findViewById(R.id.tv_value_bundle);
     }
 
     public void nextActivity(View view) {
         Intent i = new Intent(MainActivity.this, SecondActivity.class);
-        startActivity(i);
+        startActivityForResult(i, 2);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 2) {
+            String message = data.getStringExtra("MESSAGE");
+            tvValueBundle.setText(message);
+        }
+    }
 
     @Override
     public void getValue(String value) {
-        tvValue.setText(value);
+        tvValueInterface.setText(value);
     }
 
 
     @Override
     void passValue(String value) {
-        tvValue2.setText(value);
+        tvValueAbstract.setText(value);
     }
 }
